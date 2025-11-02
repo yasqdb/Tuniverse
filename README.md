@@ -24,6 +24,7 @@ It offers a faster, cheaper, and more reliable alternative to international ship
 2. Navigate into the project directory:
    ```bash
    cd Tuniverse
+   cd del1
 3. Install dependencies:
    ```bash
    npm install
