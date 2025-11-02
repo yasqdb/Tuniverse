@@ -8,8 +8,6 @@ It offers a faster, cheaper, and more reliable alternative to international ship
 - Travelers list their routes and available luggage space
 - Matching system connects buyers and travelers
 - Secure in-app communication
-- Payment held in escrow until delivery confirmation
-- Ratings and reviews for trust-building
 
 ## 🧩 Technologies Used
 - **Frontend:** React, React Router
