@@ -4,7 +4,8 @@
 
 
 ## 🚀 Features
-- Request as a buyer
+- Request products as a buyer
+- Accept / reject requests as a seller
 - Secure in-app communication
 
 ## 🧩 Technologies Used
