@@ -1,0 +1,21 @@
+.home {
+  background-image: url("../img/logo.png");
+  text-align: center;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: white;
+  background-color: black;
+  height: 100vh;
+}
+
+.center-btn {
+  top: 28%;
+  left: 30%;
+  position: absolute;
+  width: 700px; /* match your image size */
+  height: 470px;
+  background: transparent;
+  cursor: pointer;
+  border: none;
+}

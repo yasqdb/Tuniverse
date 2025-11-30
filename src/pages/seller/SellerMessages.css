@@ -1,0 +1,127 @@
+/* Main layout */
+.messages-container {
+  display: flex;
+  height: 100vh;
+  background-color: #f5f5f5;
+}
+
+/* LEFT SIDE */
+.conversations-list {
+  width: 28%;
+  background: #111;
+  color: white;
+  padding-top: 10px;
+}
+
+.conversation-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 15px;
+  cursor: pointer;
+  border-bottom: 1px solid #333;
+  transition: 0.2s;
+}
+
+.conversation-item:hover,
+.conversation-item.active {
+  background-color: #222;
+}
+
+.conversation-item img {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+}
+
+/* RIGHT SIDE */
+.chat-area {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  background: white;
+}
+
+/* Chat header */
+.chat-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 15px;
+  background: #222;
+  color: white;
+  height: 8.7777777%;
+}
+
+.chat-header img {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+}
+
+/* Messages box */
+.messages-box {
+  flex-grow: 1;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.message-bubble {
+  max-width: 60%;
+  padding: 10px 14px;
+  margin: 8px 0;
+  border-radius: 15px;
+  font-size: 15px;
+}
+
+/* Seller message (you) */
+.message-bubble.me {
+  background: #007bff;
+  color: white;
+  margin-left: auto;
+}
+
+/* Buyer message */
+.message-bubble.them {
+  background: #e4e4e4;
+  color: black;
+}
+
+/* Input area */
+.input-area {
+  display: flex;
+  padding: 12px;
+  background: #f0f0f0;
+  border-top: 1px solid #ccc;
+}
+
+.input-area input {
+  flex-grow: 1;
+  padding: 10px;
+  border-radius: 20px;
+  border: 1px solid #bbb;
+  outline: none;
+}
+
+.input-area button {
+  margin-left: 10px;
+  padding: 10px 18px;
+  border-radius: 20px;
+  border: none;
+  background: #007bff;
+  color: white;
+  cursor: pointer;
+}
+
+.no-chat-selected {
+  margin: auto;
+  color: #aaa;
+  font-size: 18px;
+}
+
+.back-btn {
+  padding: 12px 24px;
+  color: white;
+  background-color: #222;
+  border: none;
+}

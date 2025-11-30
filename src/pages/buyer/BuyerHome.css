@@ -1,0 +1,20 @@
+.buyer-home {
+  background-color: #f5f5f5;
+  min-height: 100vh;
+}
+
+.seller-card {
+  border-radius: 20px; /* Rounded corners */
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s ease;
+}
+
+.card-img-top {
+  height: 220px; /* Bigger image */
+  object-fit: cover;
+}
+
+h1 {
+  text-align: center;
+}
