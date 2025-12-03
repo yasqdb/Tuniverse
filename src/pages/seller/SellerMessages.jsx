@@ -1,74 +1,131 @@
-import React, { useState, useEffect, useRef } from "react";
-import { useLocation } from "react-router-dom";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import logo2 from "../../img/logo2.jpeg";
-import { getToken } from "../../auth";
 import "./SellerMessages.css";
+import { useParams } from "react-router-dom";
 
 export default function SellerMessages() {
-  const location = useLocation();
-  const conversationId = location.state?.conversationId;
-
+  const [conversations, setConversations] = useState([]);
+  const [selectedConv, setSelectedConv] = useState(null);
   const [messages, setMessages] = useState([]);
   const [inputText, setInputText] = useState("");
   const bottomRef = useRef(null);
 
+  const { conversationId } = useParams();
+  const sellerId = localStorage.getItem("userId");
+  const token = localStorage.getItem("token");
+
+  const openConversation = useCallback(
+    async (conv) => {
+      setSelectedConv(conv);
+      const res = await fetch(
+        `http://localhost:4000/api/conversations/${conv._id}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        },
+      );
+      const data = await res.json();
+      setMessages(data.messages);
+    },
+    [token],
+  );
+
   useEffect(() => {
-    const fetchConversation = async () => {
-      if (!conversationId) return;
+    const fetchConversations = async () => {
       try {
         const res = await fetch(
-          `http://localhost:4000/api/conversations/${conversationId}`,
-          { headers: { Authorization: `Bearer ${getToken()}` } },
+          `http://localhost:4000/api/conversations/user/${sellerId}`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          },
         );
         const data = await res.json();
-        setMessages(data.messages || []);
-      } catch (err) {
-        console.error(err);
+        setConversations(data);
+
+        if (conversationId) {
+          const existingConv = data.find((c) => c._id === conversationId);
+          if (existingConv) {
+            openConversation(existingConv);
+          } else {
+            setTimeout(async () => {
+              const retryRes = await fetch(
+                `http://localhost:4000/api/conversations/user/${sellerId}`,
+                {
+                  headers: { Authorization: `Bearer ${token}` },
+                },
+              );
+              const retryData = await retryRes.json();
+              setConversations(retryData);
+
+              const conv = retryData.find((c) => c._id === conversationId);
+              if (conv) openConversation(conv);
+            }, 500);
+          }
+        } else if (data.length > 0) {
+          openConversation(data[0]);
+        }
+      } catch (error) {
+        console.error("Error fetching conversations:", error);
       }
     };
-    fetchConversation();
-  }, [conversationId]);
+    fetchConversations();
+  }, [sellerId, token, conversationId, openConversation]);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
   const sendMessage = async () => {
-    if (inputText.trim() === "" || !conversationId) return;
-    try {
-      const res = await fetch(
-        `http://localhost:4000/api/conversations/${conversationId}/message`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${getToken()}`,
-          },
-          body: JSON.stringify({ text: inputText }),
+    if (inputText.trim() === "") return;
+    await fetch(
+      `http://localhost:4000/api/conversations/${selectedConv._id}/message`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
-      );
-      const data = await res.json();
-      setMessages(data.messages || []);
-      setInputText("");
-    } catch (err) {
-      console.error(err);
-    }
+        body: JSON.stringify({ text: inputText }),
+      },
+    );
+    setMessages((prev) => [...prev, { senderId: sellerId, text: inputText }]);
+    setInputText("");
   };
 
   return (
     <div className="messages-container">
+      <div className="conversations-list">
+        <h4 className="px-3 mt-3">Conversations</h4>
+        <button className="back-btn" onClick={() => window.history.back()}>
+          ←
+        </button>
+        {conversations.map((conv) => (
+          <div
+            key={conv._id}
+            className={`conversation-item ${
+              selectedConv?._id === conv._id ? "active" : ""
+            }`}
+            onClick={() => openConversation(conv)}
+          >
+            <img src={logo2} alt="pfp" />
+            <span>@{conv.buyerId?.username || "Unknown"}</span>
+          </div>
+        ))}
+      </div>
+
       <div className="chat-area">
-        {conversationId ? (
+        {selectedConv ? (
           <>
             <div className="chat-header">
               <img src={logo2} alt="pfp" />
-              <h5>Conversation</h5>
+              <h5>@{selectedConv.buyerId?.username || "Unknown"}</h5>
             </div>
             <div className="messages-box">
               {messages.map((msg, i) => (
                 <div
                   key={i}
-                  className={`message-bubble ${msg.senderId ? "them" : "me"}`}
+                  className={`message-bubble ${
+                    msg.senderId === sellerId ? "me" : "them"
+                  }`}
                 >
                   {msg.text}
                 </div>

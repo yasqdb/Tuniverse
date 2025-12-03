@@ -85,7 +85,12 @@ router.put("/accept/:orderId/:sellerId", authMiddleware, async (req, res) => {
       success: true,
       message: "Order accepted and conversation created",
       order,
-      conversation,
+      conversation: {
+        _id: conversation._id,
+        orderId: conversation.orderId,
+        buyerId: conversation.buyerId,
+        sellerId: conversation.sellerId,
+      },
     });
   } catch (err) {
     console.error("Accept order error:", err);

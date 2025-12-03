@@ -53,13 +53,12 @@ const SellerHome = () => {
       );
 
       const data = await res.json();
-
+      console.log("FULL RESPONSE DATA:", data);
       if (data.success) {
+        console.log("CONVERSATION OBJECT:", data.conversation);
         setDemands((prev) => prev.filter((d) => d._id !== selectedDemand._id));
         handleCloseModal();
-        navigate("/seller/messages", {
-          state: { conversationId: data.conversation._id },
-        });
+        navigate(`/seller/messages/${data.conversation._id}`);
       }
     } catch (err) {
       console.error("Error accepting order:", err);

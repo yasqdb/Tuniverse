@@ -98,7 +98,10 @@ exports.acceptOrder = async (req, res) => {
     const { orderId, sellerId } = req.params;
 
     const order = await Order.findById(orderId);
-    if (!order) return res.status(404).json({ message: "Order not found" });
+    if (!order)
+      return res
+        .status(404)
+        .json({ success: false, message: "Order not found" });
 
     order.status = "accepted";
     order.sellerId = sellerId;
@@ -106,23 +109,33 @@ exports.acceptOrder = async (req, res) => {
     order.sellerCandidates = [];
     await order.save();
 
-    const conversation = new Conversation({
+    let conversation = await Conversation.findOne({
       orderId: order._id,
-      buyerId: order.buyerId,
-      sellerId: sellerId,
-      messages: [],
     });
 
-    await conversation.save();
-    console.log("Conversation created:", conversation);
+    if (!conversation) {
+      conversation = new Conversation({
+        orderId: order._id,
+        buyerId: order.buyerId,
+        sellerId: sellerId,
+        messages: [],
+      });
+      await conversation.save();
+    }
 
     return res.status(200).json({
+      success: true,
       message: "Order accepted and conversation created",
       order,
-      conversation,
+      conversation: {
+        _id: conversation._id,
+        orderId: conversation.orderId,
+        buyerId: conversation.buyerId,
+        sellerId: conversation.sellerId,
+      },
     });
   } catch (err) {
-    return res.status(500).json({ message: err.message });
+    return res.status(500).json({ success: false, message: err.message });
   }
 };
 
