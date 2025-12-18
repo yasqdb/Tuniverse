@@ -18,7 +18,10 @@ import {
 
 export default function BuyerHome() {
   const navigate = useNavigate();
-  const goToHome = () => {
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("userId");
     navigate("/");
   };
 
@@ -52,26 +55,12 @@ export default function BuyerHome() {
             </Nav.Link>
           </Nav>
 
-          {/* Search bar inside navbar */}
-          <Form
-            className="d-flex align-items-center"
-            onSubmit={(e) => {
-              e.preventDefault();
-            }}
-          >
-            <FormControl
-              type="search"
-              placeholder="Search a traveller ..."
-              className="me-2 small-search"
-            />
-          </Form>
-
           {/* Logout button */}
           <Button
             variant="outline-light"
             size="sm"
             className="ms-3"
-            onClick={goToHome}
+            onClick={handleLogout}
           >
             Logout
           </Button>

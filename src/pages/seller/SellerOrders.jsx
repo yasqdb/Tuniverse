@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Container,
   Card,
@@ -16,6 +16,41 @@ import { getToken, getUserId } from "../../auth";
 
 export default function SellerOrders() {
   const [availability, setAvailability] = useState({ from: "", to: "" });
+  const [orders, setOrders] = useState([]);
+  const navigate = useNavigate();
+  const token = getToken();
+  const sellerId = getUserId();
+
+  useEffect(() => {
+    fetchSellerOrders();
+  }, []);
+
+  const fetchSellerOrders = async () => {
+    try {
+      const res = await fetch(
+        `http://localhost:4000/api/orders/seller/${sellerId}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        },
+      );
+      const data = await res.json();
+      console.log("SELLER ORDERS API RESPONSE:", data);
+
+      if (data.success && data.orders) {
+        console.log("Found orders:", data.orders);
+        setOrders(data.orders);
+      } else if (Array.isArray(data)) {
+        console.log("Array data:", data);
+        setOrders(data);
+      } else {
+        console.log("No orders found");
+        setOrders([]);
+      }
+    } catch (err) {
+      console.error("Error fetching seller orders:", err);
+      setOrders([]);
+    }
+  };
 
   const handleChange = (e) => {
     setAvailability({ ...availability, [e.target.name]: e.target.value });
@@ -23,30 +58,25 @@ export default function SellerOrders() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
       const res = await fetch(
-        `http://localhost:4000/api/seller/availability/${getUserId()}`,
+        `http://localhost:4000/api/seller/availability/${sellerId}`,
         {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${getToken()}`,
+            Authorization: `Bearer ${token}`,
           },
-
           body: JSON.stringify({
             availability: [{ from: availability.from, to: availability.to }],
           }),
         },
       );
-
       const data = await res.json();
-
       if (!res.ok) {
         alert(data.message || "Failed to set availability");
         return;
       }
-
       alert("Availability set!");
       setAvailability({ from: "", to: "" });
     } catch (err) {
@@ -55,20 +85,14 @@ export default function SellerOrders() {
     }
   };
 
-  const orders = [
-    { buyer: "buyer_1", date: "2025-11-20", product: "Eiffel Tower Souvenir" },
-    { buyer: "buyer_2", date: "2025-11-22", product: "Chocolate from Germany" },
-    { buyer: "buyer_3", date: "2025-11-23", product: "Tunisian Ceramics" },
-  ];
-
-  const navigate = useNavigate();
-  const goToHome = () => {
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("userId");
     navigate("/");
   };
 
   return (
     <>
-      {/* Top Navigation Bar */}
       <Navbar bg="dark" variant="dark" expand="lg" className="px-3">
         <Navbar.Brand href="#">
           <img
@@ -78,7 +102,6 @@ export default function SellerOrders() {
             style={{ borderRadius: "6px" }}
           />
         </Navbar.Brand>
-
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
@@ -91,31 +114,19 @@ export default function SellerOrders() {
             <Nav.Link as={Link} to="/seller/orders">
               Orders
             </Nav.Link>
+            <Nav.Link as={Link} to="/seller/revenues">
+              Revenues
+            </Nav.Link>
+
             <Nav.Link as={Link} to="/seller/profile">
               Profile
             </Nav.Link>
           </Nav>
-
-          {/* Search bar inside navbar */}
-          <Form
-            className="d-flex align-items-center"
-            onSubmit={(e) => {
-              e.preventDefault();
-            }}
-          >
-            <FormControl
-              type="search"
-              placeholder="Search a traveller ..."
-              className="me-2 small-search"
-            />
-          </Form>
-
-          {/* Logout button */}
           <Button
             variant="outline-light"
             size="sm"
             className="ms-3"
-            onClick={goToHome}
+            onClick={handleLogout}
           >
             Logout
           </Button>
@@ -128,16 +139,20 @@ export default function SellerOrders() {
           <thead>
             <tr>
               <th>Buyer</th>
-              <th>Date</th>
               <th>Product</th>
+              <th>Price</th>
+              <th>Delivery Date</th>
+              <th>Status</th>
             </tr>
           </thead>
           <tbody>
-            {orders.map((order, i) => (
-              <tr key={i}>
-                <td>{order.buyer}</td>
-                <td>{order.date}</td>
-                <td>{order.product}</td>
+            {orders.map((order) => (
+              <tr key={order._id}>
+                <td>{order.buyerUsername || "Buyer"}</td>
+                <td>{order.productName}</td>
+                <td>${order.productPrice}</td>
+                <td>{order.deliveryDate?.slice(0, 10)}</td>
+                <td>{order.status}</td>
               </tr>
             ))}
           </tbody>

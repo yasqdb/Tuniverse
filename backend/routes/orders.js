@@ -13,11 +13,14 @@ router.get("/buyer/:id", authMiddleware, orderController.getBuyerOrders);
 router.get("/seller/:sellerId", authMiddleware, async (req, res) => {
   try {
     const sellerId = req.params.sellerId;
+    console.log("Fetching orders for seller:", sellerId);
 
     const orders = await Order.find({
       $or: [{ sellerId }, { sellerCandidates: sellerId }],
-      status: "pending",
     }).sort({ deliveryDate: 1 });
+
+    console.log("Found orders:", orders);
+    console.log("Order count:", orders.length);
 
     res.json({ success: true, orders });
   } catch (err) {

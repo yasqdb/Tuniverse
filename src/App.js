@@ -14,6 +14,8 @@ import SellerHome from "./pages/seller/SellerHome";
 import SellerProfile from "./pages/seller/SellerProfile";
 import SellerMessages from "./pages/seller/SellerMessages";
 import SellerOrders from "./pages/seller/SellerOrders";
+import PrivateRoute from "./components/PrivateRoute";
+import SellerRevenues from "./pages/seller/SellerRevenues";
 
 function App() {
   return (
@@ -39,6 +41,14 @@ function App() {
         />
         <Route path="/seller/orders" element={<SellerOrders />} />
         <Route path="/seller/profile" element={<SellerProfile />} />
+        <Route
+          path="/seller/revenues"
+          element={
+            <PrivateRoute>
+              <SellerRevenues />
+            </PrivateRoute>
+          }
+        />
       </Routes>
     </Router>
   );

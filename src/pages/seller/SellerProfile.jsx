@@ -12,10 +12,6 @@ import logo from "../../img/logo.png";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
-
-
-
-
 const SellerProfile = () => {
   const [profile, setProfile] = useState({
     name: "Seller Name",
@@ -43,76 +39,60 @@ const SellerProfile = () => {
     alert("Profile updated!");
   };
 
-	const navigate = useNavigate();
-	  const goToHome = () => {
-	      navigate("/");
-	    };
-
-
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("userId");
+    navigate("/");
+  };
 
   return (
-
-
-
     <>
+      {/* Top Navigation Bar */}
+      <Navbar bg="dark" variant="dark" expand="lg" className="px-3">
+        <Navbar.Brand href="#">
+          <img
+            src={logo}
+            alt="Logo"
+            height="45"
+            style={{ borderRadius: "6px" }}
+          />
+        </Navbar.Brand>
 
- {/* Top Navigation Bar */}
-	        <Navbar bg="dark" variant="dark" expand="lg" className="px-3">
-	          <Navbar.Brand href="#">
-	            <img
-	              src={logo}
-	              alt="Logo"
-	              height="45"
-	              style={{ borderRadius: "6px" }}
-	            />
-	          </Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="me-auto">
+            <Nav.Link as={Link} to="/seller/home">
+              Home
+            </Nav.Link>
+            <Nav.Link as={Link} to="/seller/messages">
+              Messages
+            </Nav.Link>
+            <Nav.Link as={Link} to="/seller/orders">
+              Orders
+            </Nav.Link>
+            <Nav.Link as={Link} to="/seller/revenues">
+              Revenues
+            </Nav.Link>
 
-	          <Navbar.Toggle aria-controls="basic-navbar-nav" />
-	          <Navbar.Collapse id="basic-navbar-nav">
-	            <Nav className="me-auto">
-	              <Nav.Link as={Link} to="/seller/home">
-	                Home
-	              </Nav.Link>
-	              <Nav.Link as={Link} to="/seller/messages">
-	                Messages
-	              </Nav.Link>
-	              <Nav.Link as={Link} to="/seller/orders">
-	                Orders
-	              </Nav.Link>
-	              <Nav.Link as={Link} to="/seller/profile">
-	                Profile
-	              </Nav.Link>
-	            </Nav>
+            <Nav.Link as={Link} to="/seller/profile">
+              Profile
+            </Nav.Link>
+          </Nav>
 
-	            {/* Search bar inside navbar */}
-	            <Form
-	              className="d-flex align-items-center"
-	              onSubmit={(e) => {
-		                    e.preventDefault();
-		                  }}
-	            >
-	              <FormControl
-	                type="search"
-	                placeholder="Search a traveller ..."
-	                className="me-2 small-search"
-	              />
-	            </Form>
+          {/* Logout button */}
+          <Button
+            variant="outline-light"
+            size="sm"
+            className="ms-3"
+            onClick={handleLogout}
+          >
+            Logout
+          </Button>
+        </Navbar.Collapse>
+      </Navbar>
 
-	            {/* Logout button */}
-	            <Button
-	              variant="outline-light"
-	              size="sm"
-	              className="ms-3"
-	              onClick={goToHome}
-	            >
-	              Logout
-	            </Button>
-	          </Navbar.Collapse>
-	        </Navbar>
-
-
-
-            <Container style={{ marginTop: "40px", maxWidth: "600px" }}>
+      <Container style={{ marginTop: "40px", maxWidth: "600px" }}>
         <Card className="p-4 shadow-lg">
           <h3 className="text-center mb-4">My Profile</h3>
 

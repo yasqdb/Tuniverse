@@ -37,7 +37,11 @@ const SellerHome = () => {
   }, []);
 
   const navigate = useNavigate();
-  const goToHome = () => navigate("/");
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("userId");
+    navigate("/");
+  };
 
   const handleViewDetails = (demand) => setSelectedDemand(demand);
   const handleCloseModal = () => setSelectedDemand(null);
@@ -105,25 +109,18 @@ const SellerHome = () => {
             <Nav.Link as={Link} to="/seller/orders">
               Orders
             </Nav.Link>
+            <Nav.Link as={Link} to="/seller/revenues">
+              Revenues
+            </Nav.Link>
             <Nav.Link as={Link} to="/seller/profile">
               Profile
             </Nav.Link>
           </Nav>
-          <Form
-            className="d-flex align-items-center"
-            onSubmit={(e) => e.preventDefault()}
-          >
-            <FormControl
-              type="search"
-              placeholder="Search a traveller ..."
-              className="me-2 small-search"
-            />
-          </Form>
           <Button
             variant="outline-light"
             size="sm"
             className="ms-3"
-            onClick={goToHome}
+            onClick={handleLogout}
           >
             Logout
           </Button>

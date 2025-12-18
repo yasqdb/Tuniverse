@@ -12,7 +12,6 @@ import logo from "../../img/logo.png";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
-
 const BuyerProfile = () => {
   const [profile, setProfile] = useState({
     name: "Buyer Name",
@@ -40,12 +39,13 @@ const BuyerProfile = () => {
     alert("Profile updated!");
   };
 
+  const navigate = useNavigate();
 
-	const navigate = useNavigate();
-	const goToHome = () => {
-	    navigate("/");
-	  };
-
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("userId");
+    navigate("/");
+  };
   return (
     <>
       {/* Top Navigation Bar */}
@@ -76,22 +76,13 @@ const BuyerProfile = () => {
             </Nav.Link>
           </Nav>
 
-          {/* Search bar inside navbar */}
-          <Form
-            className="d-flex align-items-center"
-            onSubmit={(e) => {
-              e.preventDefault();
-            }}
-          >
-            <FormControl
-              type="search"
-              placeholder="Search a traveller ..."
-              className="me-2 small-search"
-            />
-          </Form>
-
           {/* Logout button */}
-          <Button variant="outline-light" size="sm" className="ms-3" onClick={goToHome}>
+          <Button
+            variant="outline-light"
+            size="sm"
+            className="ms-3"
+            onClick={handleLogout}
+          >
             Logout
           </Button>
         </Navbar.Collapse>
