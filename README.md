@@ -3,6 +3,7 @@ Tuniverse is a full-stack MERN (MongoDB, Express, React,Node.js) application tha
 Buyers can request products from abroad, and travelers (sellers) can accept delivery requests in exchange for a fee.
 The platform transforms travel into a delivery opportunity system.
 
+
 ## Features
 - Create product orders with details, links, and delivery dates  
 - Browse available travelers based on travel schedules  
@@ -24,6 +25,7 @@ The platform transforms travel into a delivery opportunity system.
 
 
 ## Tech Stack
+
 
 ### Frontend
 - React 19 + React Router 7  
