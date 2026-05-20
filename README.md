@@ -1,63 +1,59 @@
-🚀 Tuniverse - Buyer-Seller Delivery Platform
-📋 Project Overview
-Tuniverse is a full-stack MERN application that connects international shoppers with travelers. Buyers can request products from abroad, and sellers (travelers) can accept delivery requests for a fee.
+## What is Tuniverse ?
 
-🎯 Features
-👤 Buyer Role
-Create orders with product details, links, and delivery dates
+Tuniverse is a full-stack MERN application that connects international shoppers with travelers. Buyers can request products from abroad, and travelers (sellers) can accept delivery requests in exchange for a fee.
 
-Browse available sellers based on travel dates
+The platform transforms travel into a delivery opportunity system.
 
-Real-time chat with accepted sellers
+---
 
-Track order status (pending → accepted → completed)
+## Features
 
-View order history and receipts
+- Create product orders with details, links, and delivery dates  
+- Browse available travelers based on travel schedules  
+- Real-time chat with accepted travelers  
+- Track order status (pending → accepted → completed)  
+- View order history and receipts  
 
-🧳 Seller Role
-Set travel availability schedules
+- Define travel availability schedules  
+- Browse and accept/reject delivery requests  
+- Communicate with buyers via messaging  
+- Manage active deliveries dashboard  
+- Track earnings and revenue  
 
-Browse and accept/reject order requests
+---
 
-Communicate with buyers via messaging
+## Authentication & Security
 
-Manage accepted orders dashboard
+- JWT-based authentication  
+- Role-based authorization (buyer / seller)  
+- Password hashing using bcrypt.js  
+- Protected backend routes  
+- Frontend private routing for secured pages  
 
-Track revenue and earnings (private route)
+---
 
-🔐 Security & Authentication
-JWT-based authentication with role authorization
+## Tech Stack
 
-Password hashing with bcrypt.js
+### Frontend
+- React 19 + React Router 7  
+- React Bootstrap + Bootstrap 5  
+- Axios for API requests  
+- CSS Modules for styling  
 
-Protected API endpoints with middleware
+### Backend
+- Node.js + Express 5  
+- MongoDB + Mongoose  
+- JSON Web Token (JWT)  
+- bcrypt.js for password security  
+- CORS middleware  
 
-Private routing for sensitive pages
+### Development Tools
+- React Scripts  
+- Testing Library  
 
-🏗️ Tech Stack
-Frontend
-React 19.2 + React DOM 19.2
+---
 
-React Router DOM 7.9 (Client-side routing)
+## Architecture
 
-React Bootstrap 2.10 + Bootstrap 5.3 (UI Components)
+Buyer creates order → System matches traveler → Traveler accepts → Chat communication → Delivery completion  
 
-Axios 1.13 / Fetch API (HTTP requests)
-
-CSS Modules (Styling)
-
-Backend
-Node.js + Express 5.1 (REST API)
-
-MongoDB + Mongoose 9.0 (Database)
-
-JSON Web Token 9.0 (Authentication)
-
-Bcrypt.js 3.0 (Password hashing)
-
-CORS 2.8 (Cross-origin requests)
-
-Development
-React Scripts 5.0 (Build toolchain)
-
-Testing Library suite (Testing utilities)
