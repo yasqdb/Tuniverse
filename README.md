@@ -1,13 +1,9 @@
 ## What is Tuniverse ?
-
-Tuniverse is a full-stack MERN application that connects international shoppers with travelers. Buyers can request products from abroad, and travelers (sellers) can accept delivery requests in exchange for a fee.
-
+Tuniverse is a full-stack MERN (MongoDB, Express, React,Node.js) application that connects international shoppers with travelers. 
+Buyers can request products from abroad, and travelers (sellers) can accept delivery requests in exchange for a fee.
 The platform transforms travel into a delivery opportunity system.
 
----
-
 ## Features
-
 - Create product orders with details, links, and delivery dates  
 - Browse available travelers based on travel schedules  
 - Real-time chat with accepted travelers  
@@ -20,17 +16,12 @@ The platform transforms travel into a delivery opportunity system.
 - Manage active deliveries dashboard  
 - Track earnings and revenue  
 
----
 
 ## Authentication & Security
-
 - JWT-based authentication  
-- Role-based authorization (buyer / seller)  
-- Password hashing using bcrypt.js  
-- Protected backend routes  
-- Frontend private routing for secured pages  
+- Role-based authorization (buyer / seller)    
+- Frontend private routing for secured pages
 
----
 
 ## Tech Stack
 
@@ -45,15 +36,9 @@ The platform transforms travel into a delivery opportunity system.
 - MongoDB + Mongoose  
 - JSON Web Token (JWT)  
 - bcrypt.js for password security  
-- CORS middleware  
+- CORS middleware
 
-### Development Tools
-- React Scripts  
-- Testing Library  
-
----
-
+  
 ## Architecture
-
 Buyer creates order → System matches traveler → Traveler accepts → Chat communication → Delivery completion  
 
